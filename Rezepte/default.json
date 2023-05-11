@@ -1,0 +1,34 @@
+{
+  "name": "",
+  "category": "",
+  "date": "",
+  "ingredient": [
+    {
+    "name": "",
+    "percent": 20
+  }
+  ],
+  "manual": "",
+  "score": 1,
+  "image": "",
+  "comment": [
+    {
+      "author": "",
+      "value": "",
+      "score": 0,
+      "date": ""
+    }
+  ],
+  "nutrition": {
+    "portion": "",
+    "stuff": [{
+    "name": "",
+    "value": "",
+    "unit": ""
+    }]
+  },
+  "expense": {
+    "duration": "",
+    "difficulty": ""
+  }
+}
