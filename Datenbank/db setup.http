@@ -8,12 +8,24 @@ Content-Type: application/json
 }
 
 ### create db
-PUT http://127.0.0.1:5984/m165/
+PUT http://127.0.0.1:5984/rezepte-stix-simeon/
 
 ### add validator
-PUT http://127.0.0.1:5984/m165/_design/validator
+PUT http://127.0.0.1:5984/rezepte-stix-simeon/_design/validator
 Content-Type: application/json
 
 {
   "validate_doc_update" : "function(newDoc, oldDoc, userCtx) {function require(field, message) {message = message || \"Document must have a \" + field;if (!newDoc[field]) throw({forbidden : message});}if(newDoc){require(\"name\");require(\"category\");require(\"date\");require(\"ingredient\");require(\"manual\");require(\"image\");}}"
+}
+
+### add index
+PUT http://127.0.0.1:5984/rezepte-stix-simeon/_design/search
+Content-Type: application/json
+
+{
+   "fulltext": {
+       "by_title": {
+           "index": "function(doc) { var ret=new Document(); ret.add(doc.ingredient.name); return ret }"
+       }
+   }
 }
