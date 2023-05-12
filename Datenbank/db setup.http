@@ -29,3 +29,31 @@ Content-Type: application/json
        }
    }
 }
+
+### add replication
+POST http://127.0.0.1:5984/_replicate
+Content-Type: application/json
+
+{
+  "_id": "replication",
+  "source": {
+    "url": "http://127.0.0.1:5984/rezepte-stix-simeon",
+    "auth": {
+      "basic": {
+        "username": "admin",
+        "password": "admin"
+      }
+    }
+  },
+  "target": {
+    "url": "http://127.0.0.1:5984/rezepte-stix-simeon-repli",
+    "auth": {
+      "basic": {
+        "username": "root",
+        "password": "toor"
+      }
+    }
+  },
+  "create_target":  true,
+  "continuous": true
+}
