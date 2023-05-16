@@ -18,12 +18,14 @@ class couchDB
         $this->db=(env('COUCHDB_DB') !== null && env('COUCHDB_DB') !== '')?env("COUCHDB_DB"):"";
     }
     public function auth(){
-        Http::post('http://'.$this->server.'/_session', [
+        $response = Http::post('http://'.$this->server.'/_session', [
             'name' => $this->user,
             'password' => $this->passwd,
         ]);
+        return $response;
     }
-    public function get($id){
+    public function get($id)
+    {
         switch ($id){
             case "*":
                 $response = Http::get('http://'.$this->server.'/'.$this->db.'/_all_docs');
@@ -31,7 +33,7 @@ class couchDB
             default:
                 $response = Http::get('http://'.$this->server.'/'.$this->db.'/'.$id);
         }
-        return $response->body();
+        return $response;
     }
     public function insert($id, $object){
 
