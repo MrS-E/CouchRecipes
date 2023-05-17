@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Classes\couchDB;
 
 
 class Recipes extends Controller
 {
-    public function home(Request $request){
+    public function home(){
         $couchdb = new couchDB();
         $recipes = array();
         foreach ($couchdb->get("*")->rows as $re) {
