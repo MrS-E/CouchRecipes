@@ -14,6 +14,17 @@
             <div class="row">
                 <img src="{{$recipe->image}}" class="img-fluid"/>
             </div>
+            <div class="row">
+                <p>
+                    <strong>Kategorie:</strong> {{$recipe->category}}
+                    <br/>
+                    <strong>Veröffentlicht:</strong> {{date("d.m.Y", strtotime($recipe->date))}}
+                    <br/>
+                    @if(isset($recipe->score))
+                    <strong>Bewertung:</strong> {{$recipe->score}}/10
+                    @endif
+                </p>
+            </div>
             @if(isset($recipe->nutrition))
             <div class="row">
                 <table class="m-1 ps-1">
@@ -47,13 +58,33 @@
                 </table>
                 <h6>Anleitung:</h6>
                 @if(isset($recipe->expense->duration)&&isset($recipe->expense->difficulty))
-                <p><strong>Dauer:</strong> {{$recipe->expense->duration}}</p>
-                <p><strong>Schwierigkeit:</strong> {{$recipe->expense->difficulty}}</p>
+                <p>
+                    <strong>Dauer:</strong> {{$recipe->expense->duration}}
+                    <br/>
+                    <strong>Schwierigkeit:</strong> {{$recipe->expense->difficulty}}
+                </p>
                 @endif
                 <p>{{$recipe->manual}}</p>
             </div>
         </div>
     </div>
+    @if(isset($recipe->comment))
+        <div class="row">
+            @foreach($recipe->comment as $c)
+                <div class="col-7 m-3">
+                    <p>
+                        <strong>{{$c->author}}</strong>
+                        <br>
+                        <small>{{date("d.m.Y", strtotime($c->date))}}</small>
+                        <br>
+                        <span>
+                        {{$c->value}}
+                        </span>
+                    </p>
+                </div>
+            @endforeach
+        </div>
+    @endif
     <script>
         const percent = [@foreach($recipe->ingredient as $i) {{isset($i->percent)?$i->percent.",":0}} @endforeach];
         const input = document.querySelector("input[type='number']");
