@@ -16,3 +16,4 @@ use App\Http\Controllers\Recipes;
 
 Route::get('/', [Recipes::class, 'home']);
 Route::get('/{id}', [Recipes::class, 'recipe']);
+Route::get('/search/{string}', [Recipes::class, 'search']);

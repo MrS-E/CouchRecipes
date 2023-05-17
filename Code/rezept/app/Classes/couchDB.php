@@ -39,7 +39,12 @@ class couchDB
 
     }
     public function search($search){
-
+        $client = new Client();
+        $uri = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/_find";
+        $response = $client->request('POST', $uri, ['json'=>[
+            "selector"=>$search
+        ]]);
+        return json_decode($response->getBody());
     }
 
 }
