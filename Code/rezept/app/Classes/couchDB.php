@@ -2,7 +2,11 @@
 
 namespace App\Classes;
 
+use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Exception\BadResponseException;
 
 class couchDB
 {
@@ -27,10 +31,41 @@ class couchDB
                 $uri = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/".$id;
         }
         $client = new Client();
-        return json_decode($client->request('GET', $uri)->getBody());
+        try {
+            return json_decode($client->request('GET', $uri)->getBody());
+        }
+        catch (ClientException $e){
+            error_log($e);
+            unset($client);
+            abort(404);
+        }
+        catch (ServerException|BadResponseException|Exception $e) {
+            error_log($e);
+            unset($client);
+            abort(500);
+        }
+
     }
+    public function search($search){
+        $client = new Client();
+        $uri = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/_find";
+        try {
+            return json_decode($client->request('POST', $uri, ['json' => ["selector" => $search]])->getBody());
+        }
+        catch (ClientException $e){
+            error_log($e);
+            unset($client);
+            abort(404);
+        }
+        catch (ServerException|BadResponseException|Exception $e) {
+            error_log($e);
+            unset($client);
+            abort(500);
+        }
+    }
+
     public function insert($id, $object){
-        $object = json_encode($object, JSON_PRETTY_PRINT);
+
     }
     public function delete($id){
 
@@ -38,13 +73,4 @@ class couchDB
     public function update($id, $change){
 
     }
-    public function search($search){
-        $client = new Client();
-        $uri = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/_find";
-        $response = $client->request('POST', $uri, ['json'=>[
-            "selector"=>$search
-        ]]);
-        return json_decode($response->getBody());
-    }
-
 }
