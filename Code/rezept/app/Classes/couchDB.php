@@ -2,7 +2,7 @@
 
 namespace App\Classes;
 
-use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
 
 class couchDB
 {
@@ -17,26 +17,20 @@ class couchDB
         $this->passwd=(env('COUCHDB_PASSWORD') !== null && env('COUCHDB_PASSWORD') !== '')?env("COUCHDB_PASSWORD"):"admin";
         $this->db=(env('COUCHDB_DB') !== null && env('COUCHDB_DB') !== '')?env("COUCHDB_DB"):"";
     }
-    public function auth(){
-        $response = Http::post('http://'.$this->server.'/_session', [
-            'name' => $this->user,
-            'password' => $this->passwd,
-        ]);
-        return $response;
-    }
     public function get($id)
     {
         switch ($id){
             case "*":
-                $response = Http::get('http://'.$this->server.'/'.$this->db.'/_all_docs');
+                $uri = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/_all_docs?include_docs=true";
                 break;
             default:
-                $response = Http::get('http://'.$this->server.'/'.$this->db.'/'.$id);
+                $uri = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/".$id;
         }
-        return $response;
+        $client = new Client();
+        return json_decode($client->request('GET', $uri)->getBody());
     }
     public function insert($id, $object){
-
+        $object = json_encode($object, JSON_PRETTY_PRINT);
     }
     public function delete($id){
 
