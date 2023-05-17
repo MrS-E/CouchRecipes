@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,9 +17,9 @@
 <body>
 <div class="container-fluid">
     <div id="error" class="text-center">
-        <p class="fs-3"><span class="text-danger">Opps!</span> Page not found.</p>
+        <p class="fs-3"><span class="text-danger">Opps!</span> Something went wrong.</p>
         <p class="lead">
-            The page you’re looking for doesn’t exist.
+            The server has a malfunction, please try again later.
         </p>
         <a href="/" class="btn btn-primary">Go Home</a>
         <br>
