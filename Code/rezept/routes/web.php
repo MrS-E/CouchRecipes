@@ -14,4 +14,5 @@ use App\Http\Controllers\Recipes;
 |
 */
 
-Route::get('/', [Recipes::class, 'index']);
+Route::get('/', [Recipes::class, 'home']);
+Route::get('/{id}', [Recipes::class, 'recipe']);

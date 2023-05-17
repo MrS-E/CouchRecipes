@@ -8,12 +8,26 @@ use App\Classes\couchDB;
 
 class Recipes extends Controller
 {
-    public function index(Request $request){
+    public function home(Request $request){
         $couchdb = new couchDB();
-        echo $couchdb->auth();
-        echo $couchdb->get("*");
-        /*return view('home', [
-            'recipes'=>['asd','fgh','ioer']
-        ]);*/
+        $recipes = array();
+
+        foreach ($couchdb->get("*")->rows as $re) {
+            if(!str_contains($re->doc->_id,"_design")) {
+                //echo $re->doc->_id;
+                array_push($recipes, $re->doc);
+            }
+        }
+
+        return view('home', [
+            'recipes'=>$recipes
+        ]);
+    }
+    public function recipe($id){
+        $couchdb = new couchDB();
+        //echo var_dump($couchdb->get($id)->ingredient[0]->percent);
+        return view('recipe', [
+            'recipe'=>$couchdb->get($id)
+        ]);
     }
 }
