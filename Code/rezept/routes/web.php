@@ -15,5 +15,6 @@ use App\Http\Controllers\Recipes;
 */
 
 Route::get('/', [Recipes::class, 'home']);
-Route::get('/{id}', [Recipes::class, 'recipe']);
 Route::get('/search/{string}', [Recipes::class, 'search']);
+Route::get('/error/500', function (){abort(500);});
+Route::get('/recipe/{id}', [Recipes::class, 'recipe']);
