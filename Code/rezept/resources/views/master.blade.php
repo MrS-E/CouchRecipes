@@ -28,7 +28,7 @@
     </nav>
 </header>
 <main>
-    <div class="container-xl">
+    <div class="container-xl mt-4">
         @yield('main')
     </div>
 </main>
