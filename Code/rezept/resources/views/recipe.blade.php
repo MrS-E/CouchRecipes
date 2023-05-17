@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'Rezepte')
+@section('title', $recipe->name)
 @section('main')
     <style>
         .table td.fit,
