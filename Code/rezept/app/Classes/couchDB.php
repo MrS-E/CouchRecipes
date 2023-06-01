@@ -70,7 +70,19 @@ class couchDB
     public function delete($id){
 
     }
-    public function update($id, $change){
-
+    public function update($id, $object){
+        $client = new Client();
+        $uri = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/".$id;
+        if(isset($object->_id)) unset($object->_id);
+        if(isset($object->_rev)) unset($object->_rev);
+        $object = json_decode(json_encode($object), true);
+        try {
+            return $client->request('PUT', $uri, ['json' => array_merge(["_id"=>$id,"_rev"=>$this->get($id)->_rev], $object)])->getStatusCode();
+        }
+        catch (ClientException $e){
+            error_log($e);
+            unset($client);
+            abort(500);
+        }
     }
 }

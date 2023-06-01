@@ -13,7 +13,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-xl">
-            <a class="navbar-brand" href="">Rezepte</a>
+            <a class="navbar-brand" href="/">Rezepte</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBar" aria-controls="navBar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
