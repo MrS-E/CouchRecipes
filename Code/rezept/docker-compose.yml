@@ -1,0 +1,29 @@
+services:
+    laravel:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel
+        networks:
+            - server
+        ports:
+            - 80:8000
+        links:
+            - couchdb
+        depends_on:
+            - couchdb
+
+    couchdb:
+        image: couchdb
+        container_name: couchdb
+        volumes:
+            - ./db/data:/opt/couchdb/data
+        networks:
+            - server
+        environment:
+            COUCHDB_USER: admin
+            COUCHDB_PASSWORD: admin
+
+
+networks:
+    server:
