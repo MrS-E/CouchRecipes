@@ -31,11 +31,10 @@ Content-Type: application/json
 }
 
 ### add replication
-POST http://127.0.0.1:5984/_replicate
+POST http://127.0.0.1:5984/_replicator
 Content-Type: application/json
 
 {
-  "_id": "replication",
   "source": {
     "url": "http://127.0.0.1:5984/rezepte-stix-simeon",
     "auth": {
