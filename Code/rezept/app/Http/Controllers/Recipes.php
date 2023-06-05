@@ -52,4 +52,7 @@ class Recipes extends Controller
             'recipes'=>$recipes
         ]);
     }
+    public function add(){
+        return view('new_recipe', []);
+    }
 }
