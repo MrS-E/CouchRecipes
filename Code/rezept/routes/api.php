@@ -15,4 +15,3 @@ use App\Http\Controllers\User;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('/comment/{id}', [Comments::class, 'add'])->middleware('auth');

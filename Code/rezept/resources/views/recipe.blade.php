@@ -72,8 +72,8 @@
         <div class="col-12">
             <h5>Kommentare:</h5>
             @auth
-                <form action="/api/comment/{{explode("/",$_SERVER['REQUEST_URI'])[sizeof(explode("/",$_SERVER['REQUEST_URI']))-1]}}" method="POST">
-                    <input type="text" placeholder="Name" name="name" required>
+                <form action="/comment/{{explode("/",$_SERVER['REQUEST_URI'])[sizeof(explode("/",$_SERVER['REQUEST_URI']))-1]}}" method="POST">
+                    @csrf
                     <input type="text" placeholder="Nachricht" name="message" required>
                     <input type="number" min="1" max="10" value="10" name="score" required>
                     <button type="submit">Hinzufügen</button>
