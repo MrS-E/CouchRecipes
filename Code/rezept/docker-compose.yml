@@ -17,7 +17,7 @@ services:
         image: couchdb
         container_name: couchdb
         volumes:
-            - ./db/data:/opt/couchdb/data
+            - ./couchdb/data:/opt/couchdb/data
         networks:
             - server
         environment:
