@@ -1,1 +1,1 @@
-# Rezept App für Apero Rezepte
+# Rezept App für Rezepte
