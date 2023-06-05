@@ -19,10 +19,6 @@
                     <strong>Kategorie:</strong> {{$recipe->category}}
                     <br/>
                     <strong>Veröffentlicht:</strong> {{date("d.m.Y", strtotime($recipe->date))}}
-                    <br/>
-                    @if(isset($recipe->score))
-                    <strong>Bewertung:</strong> {{$recipe->score}}/10
-                    @endif
                 </p>
             </div>
             @if(isset($recipe->nutrition))
@@ -89,8 +85,13 @@
                         <small>{{date("d.m.Y", strtotime($c->date))}}</small>
                         <br>
                         <span>
+                            Bewertung: {{$c->score}}/10
+                        </span>
+                        <br>
+                        <span>
                         {{$c->value}}
                         </span>
+
                     </p>
                 </div>
             @endforeach
