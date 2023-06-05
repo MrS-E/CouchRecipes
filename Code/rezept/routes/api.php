@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Comments;
+use App\Http\Controllers\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,4 @@ use \App\Http\Controllers\Comments;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::get('/user', function (Request $request) {
-    return redirect('/');
-});
-
-Route::post('/comment/{id}', [Comments::class, 'add']);
-
+Route::post('/comment/{id}', [Comments::class, 'add'])->middleware('auth');
