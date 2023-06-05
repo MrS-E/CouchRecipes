@@ -20,9 +20,22 @@
             <div class="collapse navbar-collapse" id="navBar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="nav-link active" id="home" href="/">Home</a>
                     </li>
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" id="add" href="/add">Hinzufügen</a>
+                        </li>
+                    @endauth
                 </ul>
+                <div class="p-2 ps-0">
+                    @auth
+                        <button class="btn btn-success" onclick="window.location.assign('/logout')">Abmelden</button>
+                    @endauth
+                    @guest
+                        <button class="btn btn-success" onclick="window.location.assign('/login')">Anmeldung</button>
+                    @endguest
+                </div>
                 <div>
                     <input id="search" class="form-control" type="text" placeholder="Search">
                 </div>
@@ -40,10 +53,13 @@
 </footer>
 <script>
     document.querySelector("a.nav-link.active").classList.remove("active");
+    console.log(window.location.href.split('/')[window.location.href.split('/').length-1])
     switch (window.location.href.split('/')[window.location.href.split('/').length-1]){
         case 'user': break;
+        case 'add':
+            document.querySelector("#add").classList.add("active");
         default:
-            document.querySelector("a[href='/']").classList.add("active");
+            document.querySelector("#home").classList.add("active");
     }
     if(window.location.href.split('/')[window.location.href.split('/').length-2]==="search") document.querySelector("#search").value=window.location.href.split('/')[window.location.href.split('/').length-1];
     document.querySelector("#search").addEventListener('keydown',(e)=>{

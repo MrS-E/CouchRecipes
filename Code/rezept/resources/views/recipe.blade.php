@@ -71,12 +71,14 @@
     <div class="row">
         <div class="col-12">
             <h5>Kommentare:</h5>
-            <form action="/api/comment/{{explode("/",$_SERVER['REQUEST_URI'])[sizeof(explode("/",$_SERVER['REQUEST_URI']))-1]}}" method="POST">
-                <input type="text" placeholder="Name" name="name" required>
-                <input type="text" placeholder="Nachricht" name="message" required>
-                <input type="number" min="1" max="10" value="10" name="score" required>
-                <button type="submit">Hinzufügen</button>
-            </form>
+            @auth
+                <form action="/api/comment/{{explode("/",$_SERVER['REQUEST_URI'])[sizeof(explode("/",$_SERVER['REQUEST_URI']))-1]}}" method="POST">
+                    <input type="text" placeholder="Name" name="name" required>
+                    <input type="text" placeholder="Nachricht" name="message" required>
+                    <input type="number" min="1" max="10" value="10" name="score" required>
+                    <button type="submit">Hinzufügen</button>
+                </form>
+            @endauth
         </div>
         @if(isset($recipe->comment))
             @foreach(array_reverse($recipe->comment) as $c)
