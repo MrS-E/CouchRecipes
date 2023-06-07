@@ -9,7 +9,8 @@
             <input id="img_field" class="form-control" type="file" accept="image/png, image/webp, image/jpg">
         </div>
 
-        <form method="" action="">
+        <form method="POST" action="/create">
+            @csrf
             <div class="row">
                 <label for="name_field" class="form-label">Namen</label>
                 <input id="name_field" class="form-control" name="name" type="text" required
@@ -21,19 +22,11 @@
                         <thead>
                         <tr>
                             <td class="form-label">Zutat</td>
-                            <td class="form-label">Menge [g]</td>
+                            <td class="form-label">Menge [%]</td>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <input class="form-control ingredient zutat" type="text" required onchange="addInc(e)">
-                            </td>
-                            <td>
-                                <input onchange="addInc(e)" class="form-control  ingredient menge" type="number" step="0.1" min="0" value="0"
-                                       required>
-                            </td>
-                        </tr>
+
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center">
@@ -55,15 +48,15 @@
                     </div>
                     <div class="row">
                         <label for="manuel_field" class="form-label">Anleitung</label>
-                        <textarea id="manuel_field" name="manuel" class="form-text"></textarea>
+                        <textarea id="manuel_field" name="manuel" class="form-text" required></textarea>
                     </div>
                 </div>
             </div>
             <div class="d-none">
-                <input type="text" id="img" name="img" readonly>
-                <input type="text" id="ingredient" name="ingredient">
+                <input type="text" id="img" name="img" readonly required>
+                <input type="text" id="ingredient" name="ingredient" readonly required>
             </div>
-            <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center mt-2">
                 <button class="flex-fill btn btn-primary" type="submit">Einreichen</button>
             </div>
         </form>

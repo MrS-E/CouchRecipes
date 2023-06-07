@@ -64,8 +64,25 @@ class couchDB
         }
     }
 
-    public function insert($id, $object){
-
+    public function insert($object){
+        $docs = $this->get("*");
+        $last_id = $docs->rows[sizeof($docs->rows)-3]->id;
+        $url = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/".intval($last_id)+1;
+        $client = new Client();
+        try {
+            json_decode($client->request('PUT', $url, ['json'=>$object])->getBody());
+            return intval($last_id)+1;
+        }
+        catch (ClientException $e){
+            error_log($e);
+            unset($client);
+            abort(404);
+        }
+        catch (ServerException|BadResponseException|Exception $e) {
+            error_log($e);
+            unset($client);
+            abort(500);
+        }
     }
     public function delete($id){
 

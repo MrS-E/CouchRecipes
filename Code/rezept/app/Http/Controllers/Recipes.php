@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Classes\couchDB;
-
+use Exception;
+use Illuminate\Http\Request;
 
 class Recipes extends Controller
 {
@@ -54,5 +55,29 @@ class Recipes extends Controller
     }
     public function add(){
         return view('new_recipe', []);
+    }
+    public function create(Request $request){
+        try {
+            $couchdb = new couchDB();
+            $inc = [];
+            $incr = explode("/", $request->ingredient);
+            for ($i = 0; $i < sizeof($incr) - 1; $i++) {
+                array_push($inc, [
+                    "name" => explode(",", $incr[$i])[0],
+                    "percent" => floatval(explode(",", $incr[$i])[1])
+                ]);
+            }
+            $data = [
+                "name" => isset($request->name) ? $request->name : throw new Exception("required"),
+                "category" => isset($request->category) ? $request->category : throw new Exception("required"),
+                "date" => (date("Y-m-d") . " " . date("h:i:s")),
+                "manual" => isset($request->manuel) ? $request->manuel : throw new Exception("required"),
+                "image" => isset($request->img) ? $request->img : throw new Exception("required"),
+                "ingredient" => $inc,
+            ];
+            return redirect("/recipe/" . $couchdb->insert($data));
+        }catch (Exception $e){
+            return redirect("/");
+        }
     }
 }

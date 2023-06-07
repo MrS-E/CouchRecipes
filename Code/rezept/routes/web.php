@@ -25,6 +25,7 @@ Route::get('/login', [User::class, 'login']);
 Route::get('/register', [User::class, 'register']);
 
 Route::get('/add', [Recipes::class, 'add'])->middleware('auth');
+Route::post('/create', [Recipes::class, 'create'])->middleware('auth');
 Route::post('/comment/{id}', [Comments::class, 'add'])->middleware('auth');
 
 Route::post('/login', [User::class, 'verify'])->name('login');
