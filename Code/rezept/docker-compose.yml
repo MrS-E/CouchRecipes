@@ -1,9 +1,11 @@
+version: "3"
 services:
     laravel:
         build:
             context: .
             dockerfile: Dockerfile
         container_name: laravel
+        restart: always
         networks:
             - server
         ports:
@@ -13,11 +15,24 @@ services:
         depends_on:
             - couchdb
 
+    ubuntu:
+        image: ubuntu
+        container_name: db_setup
+        restart: "no"
+        command: [sh, -c, 'apt-get update && apt-get -y install curl && curl -X PUT http://admin:admin@couchdb:5984/rezepte-stix-simeon/ && curl -X PUT http://admin:admin@couchdb:5984/rezepte-stix-simeon/_design/validator -H "Content-Type: application/json" -d "{ \"validate_doc_update\":\"function(newDoc, oldDoc, userCtx) {function require(field, message) {message = message || \"Document must have a \" + field;if (!newDoc[field]) throw({forbidden : message});}if(newDoc){require(\"name\");require(\"category\");require(\"date\");require(\"ingredient\");require(\"manual\");require(\"image\");}}\" }" && curl -X PUT http://admin:admin@couchdb:5984/rezepte-stix-simeon/_design/search -H "Content-Type: application/json" -d "{ \"fulltext\": { \"by_title\": { \"index\": \"function(doc) { var ret=new Document(); ret.add(doc.ingredient.name); return ret }\" }}}" && curl -X PUT http://admin:admin@couchdb:5984/_replicator && curl -X POST http://admin:admin@couchdb:5984/_replicator -H "Content-Type: application/json" -d "{ \"source\": { \"url\": \"http://127.0.0.1:5984/rezepte-stix-simeon\", \"auth\": { \"basic\": { \"username\": \"admin\", \"password\": \"admin\" } } }, \"target\": { \"url\": \"http://127.0.0.1:5984/rezepte-stix-simeon-repli\", \"auth\": { \"basic\": { \"username\": \"root\", \"password\": \"toor\" } } }, \"create_target\":  true, \"continuous\": true }"']
+        networks:
+            - server
+        depends_on:
+            -   couchdb
+        links:
+            -   couchdb
+
     couchdb:
         image: couchdb
         container_name: couchdb
+        restart: always
         ports:
-            - 3000:5984
+            -   3000:5984
         volumes:
             - ./couchdb/data:/opt/couchdb/data
         networks:
