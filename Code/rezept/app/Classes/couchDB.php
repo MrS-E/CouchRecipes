@@ -86,15 +86,10 @@ class couchDB
         try {
             return json_decode($client->request('POST', $url, ['json'=>$object])->getBody())->id;
         }
-        catch (ClientException $e){
+        catch (ClientException|ServerException|BadResponseException|Exception $e){
             error_log($e);
             unset($client);
-            abort(404);
-        }
-        catch (ServerException|BadResponseException|Exception $e) {
-            error_log($e);
-            unset($client);
-            abort(500);
+            return $e;
         }
     }
     public function delete($id){

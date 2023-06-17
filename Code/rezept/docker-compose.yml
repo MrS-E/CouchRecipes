@@ -19,14 +19,18 @@ services:
         image: couchdb:3.3.2
         container_name: couchdb
         restart: always
+        ports:
+            - 404:5984
         volumes:
-            - ./couchdb/data:/opt/couchdb/data
+            - couchdb:/opt/couchdb/
         networks:
             - server
         environment:
             COUCHDB_USER: admin
             COUCHDB_PASSWORD: admin
 
-
 networks:
     server:
+
+volumes:
+    couchdb:

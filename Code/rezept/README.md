@@ -1,12 +1,9 @@
 # Rezepte
 
-## Start
-To start the application just go into the project folder and run the `docker-compose up`. 
-Then just go to your localhost to see the application. If you should see an error 
-respectively a costume error page, go into the docker-compose.yml and add `ports: - 5984:5984` 
-under couchdb. After just run the two .http file in the folder "Datenbank" in the following 
-order. Fist run the `db setup.http` after run the `insert rezepte.http`. Http files are 
-especially for IntelliJ, for VSCode use the "httpYAC" plugin (not tested). Another 
-possibility would be the [Rest-Cli](https://github.com/restcli/restcli)  which is compatible 
-with IntelliJ (not tested). If nothing works it would be possible to run the commands from the 
-http files manual with curl.
+## Start with Docker
+First rename the `.env.docker` file into `.env`. Then run `docker compose up`, after the all containers have started open the terminal of the docker container "laravel" (To open the terminal in the docker container you can go into docker desktop right-click the container and click on "Open in Terminal".), make sure you are in the /app directory and run `php artisan db:setup`. To make sure that the database is ready go to `localhost:404/_utils`. You should see a database with seven documents.
+If it didn't work, try just using the two .http file in the folder "Datenbank" in the following order. Maybe the ports in the http commands need some correction. If everything is correct fist run the `db_setup.http` after run the `insert_rezepte.http`. Http files are especially for IntelliJ, for VSCode use the "httpYAC" plugin (not tested). Another possibility would be the Rest-Cli which is compatible with IntelliJ (not tested). If nothing works it would be possible to run the commands from the http files manual with curl.
+
+## Start with PHP & CouchDB
+First set up an .env file like `.env.example` or the `.env.docker`. Make sure you have all php requirements for laravel and compose installed. Run `composer install` and `npm install` to install further dependencies. Then an encrypted key must be generated with `php artisan key:generate`. The sqlite database for authentication must be migrated with `php artisan migrate`.
+A local or remote couchDB installation is required for storing and loading recipes. To create the database run `php artisan db:setup` or just use the two .http file in the folder "Datenbank" in the following order. Maybe the ports and ips in the http commands need some correction. If everything is correct run the `db_setup.http` and after run the `insert_rezepte.http`. Http files are especially for IntelliJ, for VSCode use the "httpYAC" plugin (not tested). Another possibility would be the Rest-Cli which is compatible with IntelliJ (not tested). If nothing works it would be possible to run the commands from the http files manual with curl.
