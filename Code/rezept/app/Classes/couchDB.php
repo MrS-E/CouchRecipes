@@ -66,12 +66,11 @@ class couchDB
 
     public function insert($object){
         $docs = $this->get("*");
-        $last_id = $docs->rows[sizeof($docs->rows)-3]->id;
-        $url = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/".intval($last_id)+1;
+        //$last_id = $docs->rows[sizeof($docs->rows)-3]->id;
+        $url = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/";
         $client = new Client();
         try {
-            json_decode($client->request('PUT', $url, ['json'=>$object])->getBody());
-            return intval($last_id)+1;
+            return json_decode($client->request('POST', $url, ['json'=>$object])->getBody())->id;
         }
         catch (ClientException $e){
             error_log($e);

@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### add rezept 1
-PUT http://127.0.0.1:5984/rezepte-stix-simeon/1
+POST http://127.0.0.1:5984/rezepte-stix-simeon/
 Content-Type: application/json
 
 {
@@ -38,7 +38,7 @@ Content-Type: application/json
 }
 
 ### add rezept 2
-PUT http://127.0.0.1:5984/rezepte-stix-simeon/2
+POST http://127.0.0.1:5984/rezepte-stix-simeon/
 Content-Type: application/json
 
 {
@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 ### add rezept 3
-PUT http://127.0.0.1:5984/rezepte-stix-simeon/3
+POST http://127.0.0.1:5984/rezepte-stix-simeon/
 Content-Type: application/json
 
 {
@@ -159,7 +159,7 @@ Content-Type: application/json
 }
 
 ### add rezept 4
-PUT http://127.0.0.1:5984/rezepte-stix-simeon/4
+POST http://127.0.0.1:5984/rezepte-stix-simeon/
 Content-Type: application/json
 
 {
@@ -218,7 +218,7 @@ Content-Type: application/json
 }
 
 ### add rezept 5
-PUT http://127.0.0.1:5984/rezepte-stix-simeon/5
+POST http://127.0.0.1:5984/rezepte-stix-simeon/
 Content-Type: application/json
 
 {
@@ -261,7 +261,7 @@ Content-Type: application/json
 }
 
 ### add rezept 6
-PUT http://127.0.0.1:5984/rezepte-stix-simeon/6
+POST http://127.0.0.1:5984/rezepte-stix-simeon/
 Content-Type: application/json
 
 {
