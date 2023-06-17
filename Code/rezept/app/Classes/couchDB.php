@@ -21,6 +21,23 @@ class couchDB
         $this->passwd=(env('COUCHDB_PASSWORD') !== null && env('COUCHDB_PASSWORD') !== '')?env("COUCHDB_PASSWORD"):"admin";
         $this->db=(env('COUCHDB_DB') !== null && env('COUCHDB_DB') !== '')?env("COUCHDB_DB"):"";
     }
+    public function create(){
+        $client = new Client();
+        $uri = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/";
+        try {
+            return json_decode($client->request('PUT', $uri)->getBody());
+        }
+        catch (ClientException $e){
+            error_log($e);
+            unset($client);
+            return $e;
+        }
+        catch (ServerException|BadResponseException|Exception $e) {
+            error_log($e);
+            unset($client);
+            return $e;
+        }
+    }
     public function get($id)
     {
         switch ($id){
@@ -63,10 +80,7 @@ class couchDB
             abort(500);
         }
     }
-
     public function insert($object){
-        $docs = $this->get("*");
-        //$last_id = $docs->rows[sizeof($docs->rows)-3]->id;
         $url = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/";
         $client = new Client();
         try {
@@ -84,7 +98,7 @@ class couchDB
         }
     }
     public function delete($id){
-
+        //TODO
     }
     public function update($id, $object){
         $client = new Client();
@@ -98,7 +112,49 @@ class couchDB
         catch (ClientException $e){
             error_log($e);
             unset($client);
-            abort(500);
+            return $e;
+        }
+        catch (ServerException|BadResponseException|Exception $e) {
+            error_log($e);
+            unset($client);
+            return $e;
+        }
+    }
+    public function insert_by_id($id, $object){
+        $url = "http://".$this->user.":".$this->passwd."@".$this->server."/".$this->db."/".$id;
+        $client = new Client();
+        try {
+            return json_decode($client->request('PUT', $url, ['json'=>$object])->getBody())->id;
+        }
+        catch (ClientException $e){
+            error_log($e);
+            unset($client);
+            return $e;
+        }
+        catch (ServerException|BadResponseException|Exception $e) {
+            error_log($e);
+            unset($client);
+            return $e;
+        }
+    }
+    public function replication($object){
+        $url = "http://".$this->user.":".$this->passwd."@".$this->server."/_replicator/";
+        $client = new Client();
+        try {
+            $client->request('PUT', "http://".$this->user.":".$this->passwd."@".$this->server."/_replicator/");
+        }
+        catch (ClientException|ServerException|BadResponseException|Exception $e){
+            error_log($e);
+            unset($client);
+            return $e;
+        }
+        try {
+            return json_decode($client->request('POST', $url, ['json'=>$object])->getBody());
+        }
+        catch (ClientException|ServerException|BadResponseException|Exception $e){
+            error_log($e);
+            unset($client);
+            return $e;
         }
     }
 }
